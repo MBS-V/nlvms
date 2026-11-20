@@ -1,0 +1,10 @@
+# torch comes preinstalled on Colab; do not reinstall it there.
+# Locally (CPU is enough for the tests):  pip install torch
+einops>=0.7
+numpy
+pyyaml
+omegaconf>=2.3
+tqdm
+scipy
+spacy>=3.7
+nltk

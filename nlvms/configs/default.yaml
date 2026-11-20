@@ -1,0 +1,55 @@
+# HM-Net + SE-TG configuration. Paths assume Drive mounted at /content/drive.
+
+paths:
+  drive_root: /content/drive/MyDrive/nlvms
+  feature_cache: ${paths.drive_root}/features
+  checkpoints: ${paths.drive_root}/checkpoints
+  logs: ${paths.drive_root}/logs
+
+data:
+  dataset: qvhighlights          # qvhighlights | tacos
+  feature_dir: ${paths.feature_cache}   # overridden to a local copy in Colab
+  max_video_len: 200
+  max_query_len: 32
+  clip_stride_sec: 2.0
+
+model:
+  hidden_dim: 256
+  n_heads: 8
+  mamba_state_dim: 32
+  enhancement_layers: 2
+  cofusion_layers: 2
+  num_queries: 10
+  positional_bias_threshold: 200
+  dropout: 0.1
+  droppath: 0.1
+
+subevent:
+  enabled: true
+  max_subevents: 4
+  connectives: [then, after, before, once, while, "and then", next]
+  gate_init: 0.0                 # used as tanh(gate); 0 -> identical to HM-Net at init
+
+loss:
+  weight_ce: 6.0
+  weight_l1: 10.0
+  weight_giou: 1.0
+  weight_sal: 1.0
+  weight_rec: 0.1
+  weight_sub: 0.1
+  weight_div: 0.1
+
+train:
+  batch_size: 8
+  grad_accum: 4                  # effective batch 32 on a T4
+  lr: 2.0e-4
+  warmup_epochs: 5
+  epochs: 100
+  weight_decay: 1.0e-4
+  grad_clip: 1.0
+  amp: true                      # fp16 on T4 (no bf16 on Turing)
+  save_every: 1
+
+eval:
+  iou_thresholds: [0.3, 0.5, 0.7]
+  map_thresholds: [0.5, 0.75]

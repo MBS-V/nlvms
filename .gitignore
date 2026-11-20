@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environment
+.venv/
+venv/
+
+# Model checkpoints
+*.pt
+*.pth
+*.ckpt
+
+# Feature files and datasets
+*.npz
+*.npy
+features/
+checkpoints/
+
+# Training outputs
+logs/
+runs/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment secrets
+.env
+
+# VS Code local settings
+.vscode/
